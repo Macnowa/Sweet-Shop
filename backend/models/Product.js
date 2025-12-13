@@ -16,12 +16,11 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['Cake', 'Pastry', 'Cookie', 'Candy'], // We restrict it to these types
-    default: 'Cake'
+    enum: ['Cake', 'Pastry', 'Cookie', 'Candy', 'Cupcake', 'Donut'] // <--- We added Cupcake and Donut here!
   },
-  inStock: {
-    type: Boolean,
-    default: true
+  stock: {
+    type: Number,
+    default: 0
   }
 }, { timestamps: true });
 

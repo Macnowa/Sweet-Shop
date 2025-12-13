@@ -25,13 +25,17 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'User not found' });
 
-    // 2. Check if the password matches (Simple check for now)
+    // 2. Check if the password matches
     if (user.password !== password) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // 3. Success!
-    res.status(200).json({ message: 'Login successful', user });
+    // 3. Success! Send the User ID as a "Token"
+    res.status(200).json({ 
+      message: 'Login successful', 
+      token: user._id,   // <--- THIS WAS MISSING!
+      user 
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
