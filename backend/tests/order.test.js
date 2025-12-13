@@ -40,4 +40,18 @@ describe('Order API', () => {
     expect(res.body.status).toEqual('Pending');
     expect(res.body.totalAmount).toEqual(200);
   });
+  it('should fetch orders for a specific user', async () => {
+    // 1. Setup data (Create a fresh user and order)
+    const user = await User.create({ username: 'buyer2', email: 'buyer2@test.com', password: '123' });
+    const product = await Product.create({ name: 'Cookie', description: 'Yum', price: 50, category: 'Cookie' });
+    await Order.create({ user: user._id, products: [{ product: product._id, quantity: 5 }], totalAmount: 250 });
+
+    // 2. Fetch orders for this user
+    const res = await request(app).get(`/api/orders/${user._id}`);
+
+    // 3. Expect 1 order back
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.length).toEqual(1);
+    expect(res.body[0].totalAmount).toEqual(250);
+  });
 });
