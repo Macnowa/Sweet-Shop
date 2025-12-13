@@ -6,5 +6,6 @@ const cartController = require('../controllers/cartController');
 router.post('/add', cartController.addToCart);
 // Get the cart for a specific user
 router.get('/:userId', cartController.getCart);
+router.post('/checkout', cartController.checkout);
 
 module.exports = router;

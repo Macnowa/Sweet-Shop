@@ -50,3 +50,17 @@ exports.getCart = async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 };
+exports.checkout = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    let cart = await Cart.findOne({ userId });
+    if (cart) {
+      cart.products = []; // Empty the cart
+      await cart.save(); // Save the empty cart
+    }
+    res.status(200).json({ message: "Order placed successfully!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Checkout failed");
+  }
+};
