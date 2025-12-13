@@ -29,4 +29,18 @@ describe('Product API', () => {
     expect(res.statusCode).toEqual(201);
     expect(res.body.name).toEqual('Chocolate Lava Cake');
   });
+  it('should fetch all sweets', async () => {
+    // 1. Add two sweets first so we have something to fetch
+    await Product.create([
+      { name: 'Brownie', description: 'Choco', price: 50, category: 'Pastry' },
+      { name: 'Lollipop', description: 'Sweet', price: 10, category: 'Candy' }
+    ]);
+
+    // 2. Ask for the menu
+    const res = await request(app).get('/api/products');
+
+    // 3. Expect to get 2 items back
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.length).toEqual(2);
+  });
 });
